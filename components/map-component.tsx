@@ -37,14 +37,20 @@ const MapComponentWithNoSSR = dynamic(
           try {
             // Initialize the map
             const mapInstance = L.map(mapRef.current, {
-              center: [11.018658, -74.850841],
-              zoom: 16,
+              center: [11.020758, -74.849935],
+              zoom: 15,
             })
 
             // Add tile layer
-            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            const osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
               // attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
             }).addTo(mapInstance)
+
+            const arcgis = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
+              subdomains: ['otile1','otile2','otile3','otile4']
+            })/* .addTo(mapInstance); */
+
+            L.control.layers({ "Mapa": osm, "Satelite": arcgis }, {}, { position: 'bottomleft' }).addTo(mapInstance)
 
             L.polygon([
               [11.021033, -74.852927],
@@ -55,6 +61,24 @@ const MapComponentWithNoSSR = dynamic(
               [11.017705, -74.852445],
               [11.019121, -74.852053],
               [11.019927, -74.851490]
+            ], { color: "#367beb", weight: 2 }).addTo(mapInstance)
+
+            L.polygon([
+              [11.021341, -74.852079],
+              [11.024764, -74.851543],
+              [11.024669, -74.849842],
+              [11.023866, -74.849906],
+              [11.021834, -74.848833],
+              [11.021013, -74.849058]
+            ], { color: "#367beb", weight: 2 }).addTo(mapInstance)
+
+            L.polygon([
+              [11.020581, -74.848909],
+              [11.020033, -74.845013],
+              [11.019033, -74.845400],
+              [11.019486, -74.848491],
+              [11.018864, -74.848662],
+              [11.019030, -74.849386]
             ], { color: "#367beb", weight: 2 }).addTo(mapInstance)
 
             // Handle map click to set marker
